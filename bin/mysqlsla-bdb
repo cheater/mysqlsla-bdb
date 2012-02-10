@@ -2298,7 +2298,7 @@ my ($s_db, $a_db, $ra_db, $alls_db);
 my $total_queries;
 my $total_unique_queries;
 my $total_unique_users;
-my $u = chr(($WIN ? 230 : 181)) . 's'; # micro symbol
+my $u = 'us'; # micro symbol
 my %params;
 my %MySQL_reserved_words; # used by beautify()
 my %db; # --databases
