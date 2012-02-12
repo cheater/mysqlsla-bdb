@@ -697,6 +697,11 @@ sub parse_slow_logs
    my $short_msl;
    my $timestamp = "unknown-date unknown-time";
    my $dates;
+   my $query_times;
+   my $lock_times;
+   my $rows_sent_all;
+   my $rows_examined_all;
+
 
    # Set local vars to params for brevity ($$q_h is nicer than $$params{queries})
    $logs    = $params{logs};
@@ -882,7 +887,7 @@ sub parse_slow_logs
                $$ra_h{$a_idx} = $q;
                $q = $a_idx++;
 
-               $$q_h{$q} = { id => $statement_id++, db => $use_db, dates => [] };
+               $$q_h{$q} = { id => $statement_id++, db => $use_db, dates => [], query_times => [], lock_times => [], rows_sent => [], rows_examined => [] };
                $$s_h{$q} = $stmt;
 
                $x = $$q_h{$q};  # just for brevity
@@ -946,6 +951,14 @@ sub parse_slow_logs
             $x->{c_sum} += 1;
             $dates = $x->{dates};
             push(@{$dates}, $timestamp);
+            $query_times = $x->{query_times};
+            push(@{$query_times}, $time);
+            $lock_times = $x->{lock_times};
+            push(@{$lock_times}, $lock);
+            $rows_sent_all = $x->{rows_sent};
+            push(@{$rows_sent_all}, $rows_sent);
+            $rows_examined_all = $x->{rows_examined};
+            push(@{$rows_examined_all}, $rows_examined);
 
             # this handles cases where the db for a query is discovered after
             # the query's first occurrence
@@ -1742,6 +1755,26 @@ Query dates:
 _
 %s
 dates
+
+Query times:
+_
+%s
+query_times
+
+Lock times:
+_
+%s
+lock_times
+
+Rows sent:
+_
+%s
+rows_sent
+
+Rows examined:
+_
+%s
+rows_examined
 
 Query abstract:
 _
