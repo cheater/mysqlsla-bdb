@@ -739,7 +739,7 @@ sub parse_slow_logs
 
 
          if ( $line =~ m/^# Time/ ) {
-             $line =~ /^# Time: ([0-9]+ [0-9]+:[0-9]+:[0-9]+)/;
+             $line =~ /^# Time: ([0-9]+ +[0-9]+:[0-9]+:[0-9]+)/;
              $timestamp = $1;
              $line = <LOG>;
          }
